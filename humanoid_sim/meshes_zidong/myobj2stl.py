@@ -1,0 +1,11 @@
+from obj2stl import obj2stl
+obj2stl.convert(input='Body.obj',output='Body.stl')
+obj2stl.convert(input='foot_drawing.obj',output='foot_drawing.stl')
+obj2stl.convert(input='ForeArm.obj',output='ForeArm.stl')
+obj2stl.convert(input='ForeArm2.obj',output='ForeArm2.stl')
+obj2stl.convert(input='HipRx.obj',output='HipRx.stl')
+obj2stl.convert(input='HipRz.obj',output='HipRz.stl')
+obj2stl.convert(input='LowerLeg3_drawing.obj',output='LowerLeg3_drawing.stl')
+obj2stl.convert(input='ShoulderRx.obj',output='ShoulderRx.stl')
+obj2stl.convert(input='Thigh.obj',output='Thigh.stl')
+obj2stl.convert(input='UpperArm.obj',output='UpperArm.stl')

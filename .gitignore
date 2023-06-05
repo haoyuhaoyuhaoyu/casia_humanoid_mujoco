@@ -1,0 +1,9 @@
+*.mat
+*.mp4
+*.csv
+
+# ignore debug
+.idea/
+cmake-build-debug/
+__pycache__/
+build/

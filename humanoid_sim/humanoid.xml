@@ -1,0 +1,137 @@
+<mujoco model="humanoid">
+    <compiler angle="radian" meshdir="./meshes_zidong/" />
+    <size njmax="500" nconmax="100" />
+    <option timestep="0.0001" iterations="50" gravity='0 0 -9.81'/>
+    <visual>
+        <quality shadowsize='4096'/>
+        <map znear='0.05'/>
+    </visual>
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.4 0.6 0.8" width="128" height="128"/>
+        <texture name="plane" type="2d" builtin="checker" rgb1="0.2 0.2 0.2" rgb2="0.3 0.3 0.3" width="500" height="500" />
+        <texture name="plane2" type="2d" builtin="checker" rgb1="0.3 0.3 0.3" rgb2="0.7 0.7 0.7" width="500" height="500" />
+        <material name="plane" reflectance="0.0" texture="plane" texrepeat="1 1" texuniform="true"/>
+        <material name="plane2" reflectance="0.0" texture="plane2" texrepeat="1 1" texuniform="true"/>
+        <mesh name="Body" file="Body.stl" />
+        <mesh name="HipRz" file="HipRz.stl" />
+        <mesh name="HipRx" file="HipRx.stl" />
+        <mesh name="Thigh" file="Thigh.stl" />
+        <mesh name="LowerLeg3_drawing" file="LowerLeg3_drawing.stl" />
+        <mesh name="foot_drawing" file="foot_drawing.stl" />
+        <mesh name="ShoulderRx" file="ShoulderRx.stl" />
+        <mesh name="UpperArm" file="UpperArm.stl" />
+        <mesh name="ForeArm2" file="ForeArm2.stl" />
+        <hfield name="terrain" file="haviz.png" size="5 5 0.3 0.1"/>
+    </asset>
+    <worldbody>
+        <light directional="false" cutoff="60" exponent="1" diffuse=".5 .5 .5" specular=".1 .1 .1" pos="0.5 0.1 0.8" dir="-0.5 -0.1 -0.8"/>
+        <geom name="floor" pos="0  0  0" size="5 5 5" type="plane" material="plane" condim="3" conaffinity="1"/>
+        <!-- <geom name="ground" type="hfield" hfield="terrain" material="plane2" condim="3" conaffinity="1"/> -->
+        <body name="torso">
+            <inertial pos="0.0 0.0 0.15" quat="1 0 0 0" mass="2.21129"  diaginertia="0.3006167 0.23837 0.09690467"/>
+            <joint type="slide" axis="1 0 0" limited="false"/>
+            <joint type="slide" axis="0 1 0" limited="false"/>
+            <joint type="slide" axis="0 0 1" limited="false"/>
+            <joint type="ball" limited="false"/>
+            <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="Body" />
+            <body name="R_HipRz" pos="0 -0.075 0">
+                <inertial pos="0 0 -0.04293" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                <joint name="torso_to_R_HipRz" pos="0 0 0" axis="0 0 1" limited="true" range="-3 3" />
+                <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="HipRz" />
+                <body name="R_HipRx" pos="-0.041 0 -0.0885">
+                    <inertial pos="0 0 -0.01" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                    <joint name="R_HipRz_to_R_HipRx" pos="0 0 0" axis="1 0 0" limited="true" range="-3 3" />
+                    <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="HipRx" />
+                    <body name="R_Thigh" pos="0.065 0 0">
+                        <inertial pos="0 0 -0.1" quat="0.5 0.5 0.5 0.5" mass="1" diaginertia="0.01391 0.01355 0.003735" />
+                        <joint name="R_HipRx_to_R_Thigh" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                        <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="Thigh" />
+                        <body name="R_Shank" pos="0 0.017875 -0.247">
+                            <inertial pos="-0.03416 -0.00075 -0.01" quat="0.5 0.5 0.5 0.5" mass="0.7" diaginertia="0.01391 0.01355 0.003735" />
+                            <joint name="R_Knee" pos="0 0 0" axis="0 1 0" limited="true" range="0 3" />
+                            <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="LowerLeg3_drawing" />
+                            <body name="R_Foot" pos="0 0 -0.247">
+                                <inertial pos="0 0 -0.01" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                                <joint name="R_Ankle" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                                <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="foot_drawing" />
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="L_HipRz" pos="0 0.075 0">
+                <inertial pos="0 0 -0.04293" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                <joint name="torso_to_L_HipRz" pos="0 0 0" axis="0 0 1" limited="true" range="-3 3" />
+                <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="HipRz" />
+                <body name="L_HipRx" pos="-0.041 0 -0.0885">
+                    <inertial pos="0 0 -0.01" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                    <joint name="L_HipRz_to_L_HipRx" pos="0 0 0" axis="1 0 0" limited="true" range="-3 3" />
+                    <geom quat="3.26795e-07 1 0 0" type="mesh" contype="1" conaffinity="0" group="1" mesh="HipRx" />
+                    <body name="L_Thigh" pos="0.065 0 0">
+                        <inertial pos="0 0 -0.1" quat="0.5 0.5 0.5 0.5" mass="1" diaginertia="0.01391 0.01355 0.003735" />
+                        <joint name="L_HipRx_to_L_Thigh" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                        <geom quat="3.26795e-07 0 0 1" type="mesh" contype="1" conaffinity="0" group="1" mesh="Thigh" />
+                        <body name="L_Shank" pos="0 -0.017875 -0.247">
+                            <inertial pos="-0.03416 -0.00075 -0.01" quat="0.5 0.5 0.5 0.5" mass="0.7" diaginertia="0.01391 0.01355 0.003735" />
+                            <joint name="L_Knee" pos="0 0 0" axis="0 1 0" limited="true" range="0 3" />
+                            <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="LowerLeg3_drawing" />
+                            <body name="L_Foot" pos="0 0 -0.247">
+                                <inertial pos="0 0 -0.01" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                                <joint name="L_Ankle" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                                <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="foot_drawing" />
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="R_ShoulderRx" pos="-0.0215 -0.1115 0.202">
+                <inertial pos="0.01 0 0" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                <joint name="torso_to_R_ShoulderRx" pos="0 0 0" axis="1 0 0" limited="true" range="-3 3" />
+                <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="ShoulderRx" />
+                <body name="R_UpperArm" pos="0.0545 0 0">
+                    <inertial pos="0 0 -0.09" quat="0.5 0.5 0.5 0.5" mass="0.37" diaginertia="0.01391 0.01355 0.003735" />
+                    <joint name="R_ShoulderRx_to_R_UpperArm" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                    <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="UpperArm" />
+                    <body name="R_ForeArm" pos="0 -0.068 -0.195">
+                        <inertial pos="0 0 -0.04" quat="0.5 0.5 0.5 0.5" mass="0.1" diaginertia="0.01391 0.01355 0.003735" />
+                        <joint name="R_UpperArm_to_R_ForeArm" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                        <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="ForeArm2" />
+                    </body>
+                </body>
+            </body>
+            <body name="L_ShoulderRx" pos="-0.0215 0.1115 0.202">
+                <inertial pos="0.01 0 0" quat="0.5 0.5 0.5 0.5" mass="0.3" diaginertia="0.01391 0.01355 0.003735" />
+                <joint name="torso_to_L_ShoulderRx" pos="0 0 0" axis="1 0 0" limited="true" range="-3 3" />
+                <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="ShoulderRx" />
+                <body name="L_UpperArm" pos="0.0545 0 0">
+                    <inertial pos="0 0 -0.09" quat="0.5 0.5 0.5 0.5" mass="0.37" diaginertia="0.01391 0.01355 0.003735" />
+                    <joint name="L_ShoulderRx_to_L_UpperArm" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                    <geom quat="3.26795e-07 0 0 1" type="mesh" contype="1" conaffinity="0" group="1" mesh="UpperArm" />
+                    <body name="L_ForeArm" pos="0 0.068 -0.195">
+                        <inertial pos="0 0 -0.04" quat="0.5 0.5 0.5 0.5" mass="0.1" diaginertia="0.01391 0.01355 0.003735" />
+                        <joint name="L_UpperArm_to_L_ForeArm" pos="0 0 0" axis="0 1 0" limited="true" range="-3 3" />
+                        <geom type="mesh" contype="1" conaffinity="0" group="1" mesh="ForeArm2" />
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+    <actuator>
+        <motor name="torso_to_R_HipRz"  joint="torso_to_R_HipRz" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="R_HipRz_to_R_HipRx"  joint="R_HipRz_to_R_HipRx" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="R_HipRx_to_R_Thigh"  joint="R_HipRx_to_R_Thigh" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="R_Knee"  joint="R_Knee" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="R_Ankle"  joint="R_Ankle" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="torso_to_L_HipRz"  joint="torso_to_L_HipRz" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="L_HipRz_to_L_HipRx"  joint="L_HipRz_to_L_HipRx" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="L_HipRx_to_L_Thigh"  joint="L_HipRx_to_L_Thigh" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="L_Knee"  joint="L_Knee" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="L_Ankle"  joint="L_Ankle" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="torso_to_R_ShoulderRx"  joint="torso_to_R_ShoulderRx" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="R_ShoulderRx_to_R_UpperArm"  joint="R_ShoulderRx_to_R_UpperArm" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="R_UpperArm_to_R_ForeArm"  joint="R_UpperArm_to_R_ForeArm" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="torso_to_L_ShoulderRx"  joint="torso_to_L_ShoulderRx" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="L_ShoulderRx_to_L_UpperArm"  joint="L_ShoulderRx_to_L_UpperArm" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+        <motor name="L_UpperArm_to_L_ForeArm"  joint="L_UpperArm_to_L_ForeArm" gear="1" ctrllimited="true" ctrlrange="-33.6 33.6"/>
+    </actuator>
+</mujoco>
